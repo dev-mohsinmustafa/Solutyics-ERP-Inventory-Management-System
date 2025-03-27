@@ -5,9 +5,15 @@ import CurrentStock from '@/components/dashboard/CurrentStock';
 import { getData } from '@/lib/getData';
 
 const Dashboard = async () => {
-  const items = await getData("items");
-  const warehouses = await getData("warehouse") || [];
+  // const items = await getData("items");
+  // const warehouses = await getData("warehouse") || [];
+  
+  const itemsData =  getData("items");
+  const warehousesData =  getData("warehouse");
+  const [items, warehouses] = await Promise.all([itemsData, warehousesData]);
 
+
+  
   return (
     <div>
       {/* <DashboardBanner /> */}
