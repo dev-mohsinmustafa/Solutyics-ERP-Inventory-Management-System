@@ -91,7 +91,7 @@ export async function POST(request) {
             }
         })
 
-        const sale = await db.sale.create({
+        const sales = await db.sale.create({
             data: {
                 // title: saleData.title,
                 customerName: saleData.customerName,  // Rename title to customerName
@@ -117,7 +117,7 @@ export async function POST(request) {
                 // notes: saleData.notes,
             }
         });
-        return NextResponse.json(sale);
+        return NextResponse.json(sales);
     } catch (error) {
         console.log(error);
         return NextResponse.json({ error, message: "Failed to Create a Sale" }, { status: 500 });

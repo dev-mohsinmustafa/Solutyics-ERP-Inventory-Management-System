@@ -2,7 +2,6 @@
 "use client"
 // if use async then remove use client
 
-import DataTable from "@/components/dashboard/DataTable";
 import FixedHeader from "@/components/dashboard/FixedHeader";
 import { getData } from "@/lib/getData";
 import { Download, Plus } from "lucide-react";
@@ -11,6 +10,7 @@ import { Filter } from 'lucide-react';
 import { ListRestart } from 'lucide-react';
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import DataTableSales from "@/components/dashboard/DataTableSales";
 
 
 
@@ -25,6 +25,7 @@ const Sales = () => {
   useEffect(() => {
     async function fetchData() {
       const data = await getData("sales");
+      console.log("Sales Data", data);
       setSales(data);
       setFilteredSales(data); // Initialize filtered sales with all data
     }
@@ -162,7 +163,7 @@ const Sales = () => {
       </div>
 
       <div className="my-4 p-8 ">
-        <DataTable data={filteredSales} columns={columns} resourceTitle={"sales"} />
+        <DataTableSales data={filteredSales} columns={columns} resourceTitle={"sales"} />
       </div>
 
       {/* <DataTable data={sales} columns={columns} resourceTitle={"sales"} /> */}
