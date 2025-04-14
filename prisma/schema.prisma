@@ -209,6 +209,7 @@ model User {
   hashedPassword String?
   companyName    String?
 
+  role           String    @default("user")    // Add this field
   // Add this relation field
   purchaseRequestApprovals PurchaseRequestApproval[]
 

@@ -22,11 +22,24 @@ export default function Login() {
     //     redirect("/dashboard/home/overview")
     // }
     // Solve Re-rendering error
+    // useEffect(() => {
+    //     if (status === "authenticated") {
+    //         router.push("/dashboard/home/overview");
+    //     }
+    // }, [status, router]);
+    // Role Based Access
     useEffect(() => {
         if (status === "authenticated") {
-            router.push("/dashboard/home/overview");
+            // Redirect based on user role
+            if (session.user.role === "admin") {
+                router.push("/dashboard/inventory/approval-requests");
+            } else {
+                router.push("/dashboard/home/overview");
+            }
         }
-    }, [status, router]);
+    }, [status, session, router]);
+
+    //
     // const username = session?.user?.name ?? "";
     // console.log("GET USER DATA FROM SESSION", username)
 

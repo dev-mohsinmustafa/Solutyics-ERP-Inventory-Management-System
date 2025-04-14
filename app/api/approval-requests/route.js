@@ -1,8 +1,22 @@
 import db from "@/lib/db";
 import { NextResponse } from "next/server";
 
+import { getServerSession } from "next-auth";
+
 export async function PUT(request) {
     try {
+        //
+      // Get the session
+      const session = await getServerSession();
+
+      // Check if user is authenticated and is an admin
+      if (!session?.user?.role !== 'admin') {
+          return NextResponse.json({ 
+              error: "Unauthorized. Only admins can approve requests." 
+          }, { status: 403 });
+      }
+
+        //
         const { id, status, remarks, approvedById } = await request.json();
 
         if (!id || !status || !approvedById) {
@@ -11,14 +25,17 @@ export async function PUT(request) {
             }, { status: 400 });
         }
 
-        // Check if user exists
+        // Check if user exists and is admin
         const user = await db.user.findUnique({
-            where: { id: approvedById }
+            where: { 
+                id: approvedById,
+                role: 'admin'
+             }
         });
 
         if (!user) {
             return NextResponse.json({ 
-                error: "Invalid approver ID" 
+                error: "Invalid approver ID or unauthorized access" 
             }, { status: 400 });
         }
 

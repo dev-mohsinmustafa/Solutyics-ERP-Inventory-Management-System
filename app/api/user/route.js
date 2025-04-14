@@ -26,6 +26,7 @@ export async function POST(request) {
                 email,
                 hashedPassword,
                 companyName,
+                role: email.includes("admin") ? "admin" : "user", // Assign role based on email
             }
         });
         console.log(newUser);
@@ -37,3 +38,25 @@ export async function POST(request) {
     }
 }
 
+
+
+
+//
+
+// Add a new PUT route to update user roles
+export async function PUT(request) {
+    try {
+        const { email, role } = await request.json();
+        
+        const updatedUser = await db.User.update({
+            where: { email },
+            data: { role }
+        });
+
+        return NextResponse.json(updatedUser);
+    } catch (error) {
+        console.log(error);
+        return NextResponse.json({ error }, { status: 500 });
+    }
+}
+//

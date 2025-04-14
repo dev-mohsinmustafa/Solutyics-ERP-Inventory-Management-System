@@ -8,8 +8,14 @@ import SubscriptionCard from './SubscriptionCard';
 import SidebarDropdownLink from './SidebarDropdownLink';
 import Image from 'next/image';
 
+import { useSession } from 'next-auth/react';
+
 
 const Sidebar = ({ showSidebar, setShowSidebar }) => {
+
+    //
+    const { data: session } = useSession();
+
 
     const inventoryLinks = [
         {
@@ -64,7 +70,13 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
         {
             title: "Approval Requests",
             href: "/dashboard/inventory/approval-requests",
+            adminOnly: true
+
         },
+        // ...(session?.user?.role === "admin" ? [{
+        //     title: "Approval Requests",
+        //     href: "/dashboard/inventory/approval-requests",
+        // }] : []),
         {
             title: "Purchase Orders",
             href: "/dashboard/inventory/purchase-orders",
@@ -73,7 +85,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
             title: "Goods/Materials Received",
             href: "/dashboard/inventory/goods-received",
         },
-    ]
+    ].filter(link => !link.adminOnly || session?.user?.role === "admin");
 
 
     const salesLinks = [

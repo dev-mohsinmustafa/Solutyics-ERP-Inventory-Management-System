@@ -1,3 +1,4 @@
+import RoleGuard from "@/app/roleGuard/RoleGuard";
 import DataTablePurchaseRequestApproval from "@/components/dashboard/DataTablePurchaseRequestApproval";
 import FixedHeader from "@/components/dashboard/FixedHeader";
 import { getData } from "@/lib/getData";
@@ -8,6 +9,8 @@ const ApprovalRequests = async () => {
   // "category.title", "warehouse.title", "quantity",
 
   return (
+    <RoleGuard allowedRoles={["admin"]}>
+
     <div>
       {/* Fixed Header */}
       <FixedHeader title="Purchase Request Approval Management" newLink="/dashboard/inventory/approval-requests/new" />
@@ -18,6 +21,8 @@ const ApprovalRequests = async () => {
         <DataTablePurchaseRequestApproval data={purchasesRequest} columns={columns} resourceTitle="approval-requests"/>
       </div>
     </div>
+    </RoleGuard>
+
   )
 }
 export default ApprovalRequests;
