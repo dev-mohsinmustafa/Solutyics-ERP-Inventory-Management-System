@@ -53,13 +53,17 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
             title: "Sales Management",
             href: "/dashboard/inventory/sales",
         },
-        {
-            title: "Vendors",
-            href: "/dashboard/inventory/vendors",
-        },
+        // {
+        //     title: "Vendors",
+        //     href: "/dashboard/inventory/vendors",
+        // },
         {
             title: "Purchase Requests",
             href: "/dashboard/inventory/purchase-requests",
+        },
+        {
+            title: "Approval Requests",
+            href: "/dashboard/inventory/approval-requests",
         },
         {
             title: "Purchase Orders",

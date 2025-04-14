@@ -1,8 +1,9 @@
 import { Eye, Pencil, } from "lucide-react"
 import Link from "next/link"
 import DeleteBtn from "./DeleteBtn"
+import { memo } from 'react';
 
-const DataTable = ({ data = [], columns = [], resourceTitle }) => {
+const DataTable = memo(({ data = [], columns = [], resourceTitle }) => {
     // if a have an array of objects:
     // [
     //     {
@@ -142,5 +143,8 @@ const DataTable = ({ data = [], columns = [], resourceTitle }) => {
         </div>
     )
 }
+)
+
+DataTable.displayName = 'DataTable';
 
 export default DataTable;

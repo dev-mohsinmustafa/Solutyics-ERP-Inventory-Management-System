@@ -6,12 +6,14 @@ import { useEffect, useState } from "react";
 import { getData } from "@/lib/getData";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
+import { useSession } from "next-auth/react";
 
 
 
-const DataTablePurchaseRequest = ({ data = [], columns = [], resourceTitle }) => {
+const DataTablePurchaseRequestApproval = ({ data = [], columns = [], resourceTitle }) => {
 
 
+    const { data: session } = useSession();
     const [tableData, setTableData] = useState(data); // ✅ State to update status in UI
     const [loading, setLoading] = useState(false);
     const [showModal, setShowModal] = useState(false);
@@ -59,39 +61,84 @@ const DataTablePurchaseRequest = ({ data = [], columns = [], resourceTitle }) =>
     // async function handleUpdateStatus(id, newStatus) {
     // id, newStatus ye wali openModal me chale gyen 
     async function handleUpdateStatus() {
+        if (!session?.user?.id) {
+            alert("You must be logged in to approve requests");
+            return;
+        }
+
         setShowModal(false);
         setLoading(true);
         try {
-            const response = await fetch(`/api/purchase-requests`, {
+            const response = await fetch(`/api/approval-requests`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ id: selectedId, status: selectedStatus }),
+                body: JSON.stringify({ 
+                    id: selectedId, 
+                    status: selectedStatus,
+                    remarks: `Status changed to ${selectedStatus}`,
+                    approvedById: session.user.id
+                }),
             });
+
             if (!response.ok) {
-                throw new Error("Failed to update status");
+                const errorData = await response.json();
+                throw new Error(errorData.error || "Failed to update status");
             }
 
-            // const updatedData = await response.json();
+            // Refresh data after update
+            const refreshedData = await fetch("/api/purchase-requests").then(res => res.json());
+            setTableData(refreshedData);
 
-            // ✅ Update the state to reflect changes in UI
-            setTableData((prevData) =>
-                prevData.map((item) =>
-                    item.id === selectedId ? { ...item, status: selectedStatus } : item
-                )
-            );
-            // await fetchPurchases();
-            // ✅ Fetch latest data from API instead of manually updating state
-            // const updatedData = await getData("/api/purchase-requests");
-            // setTableData(updatedData);
+            alert(`Status successfully updated to ${selectedStatus}`);
         } catch (error) {
             console.error("Error updating status:", error);
-            alert("Failed to update status. Please try again.");
+            alert(error.message);
         } finally {
             setLoading(false);
         }
     }
+
+
+    // async function handleUpdateStatus() {
+    //     setShowModal(false);
+    //     setLoading(true);
+    //     try {
+    //         const response = await fetch(`/api/approval-requests`, {
+    //             method: "PUT",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //             },
+    //             body: JSON.stringify({ 
+    //                 id: selectedId, 
+    //                 status: selectedStatus,
+    //                 remarks: "Status changed to " + selectedStatus // You can add a remarks input field if needed
+    //             }),
+    //         });
+    
+    //         if (!response.ok) {
+    //             throw new Error("Failed to update status");
+    //         }
+    
+    //         const result = await response.json();
+    
+    //         // Update the UI
+    //         setTableData((prevData) =>
+    //             prevData.map((item) =>
+    //                 item.id === selectedId ? { ...item, status: selectedStatus } : item
+    //             )
+    //         );
+    
+    //         // Show success message
+    //         alert(`Status successfully updated to ${selectedStatus}`);
+    //     } catch (error) {
+    //         console.error("Error updating status:", error);
+    //         alert("Failed to update status. Please try again.");
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // }
 
 
     return (
@@ -111,9 +158,9 @@ const DataTablePurchaseRequest = ({ data = [], columns = [], resourceTitle }) =>
                                     })
                                 }
                                 {/* <th scope="col" className="px-6 py-3">Status Option</th> ✅ New Column */}
-                                {/* <th scope="col" className="px-6 py-3">
+                                <th scope="col" className="px-6 py-3">
                                     Actions
-                                </th> */}
+                                </th>
                                 <th scope="col" className="px-6 py-3">
 
                                 </th>
@@ -161,7 +208,7 @@ const DataTablePurchaseRequest = ({ data = [], columns = [], resourceTitle }) =>
                                             }
 
                                             {/* ✅ Status Column with Dropdown */}
-                                            {/* <td className="px-6 py-4 ">
+                                            <td className="px-6 py-4 ">
                                                 <div className="block text-sm font-medium leading-6 text-gray-900">
                                                     <div className="mt-2">
                                                         <select
@@ -179,7 +226,7 @@ const DataTablePurchaseRequest = ({ data = [], columns = [], resourceTitle }) =>
                                                         </select>
                                                     </div>
                                                 </div>
-                                            </td> */}
+                                            </td>
 
                                             <td className="px-6 py-4 text-right flex items-center space-x-4">
 
@@ -281,4 +328,4 @@ const DataTablePurchaseRequest = ({ data = [], columns = [], resourceTitle }) =>
     )
 }
 
-export default DataTablePurchaseRequest;
+export default DataTablePurchaseRequestApproval;

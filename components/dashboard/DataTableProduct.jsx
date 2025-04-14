@@ -2,9 +2,7 @@ import { Eye, Pencil, } from "lucide-react"
 import Link from "next/link"
 import DeleteBtn from "./DeleteBtn"
 
-// onRefresh
-const DataTableSales = ({ data = [], columns = [], resourceTitle, onRefresh  }) => {
-    console.log("Mohsin Data Check kro", data)
+const DataTableProduct = ({ data = [], columns = [], resourceTitle }) => {
     // if a have an array of objects:
     // [
     //     {
@@ -128,9 +126,7 @@ const DataTableSales = ({ data = [], columns = [], resourceTitle, onRefresh  }) 
 
 
                                                 {/* Delete Btn */}
-                                                <DeleteBtn id={item.id} endpoint={resourceTitle} 
-                                                onSuccess={onRefresh} 
-                                                />
+                                                <DeleteBtn id={item.id} endpoint={resourceTitle} />
                                             </td>
                                         </tr>
                                     )
@@ -147,4 +143,4 @@ const DataTableSales = ({ data = [], columns = [], resourceTitle, onRefresh  }) 
     )
 }
 
-export default DataTableSales;
+export default DataTableProduct;

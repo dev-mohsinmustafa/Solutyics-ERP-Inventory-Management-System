@@ -13,7 +13,6 @@ const NewPurchaseOrder = async ({ initialData = {}, isUpdate = false }) => {
   const brandsData = getData("brands");
   const warehousesData = getData("warehouse");
   const suppliersData = getData("suppliers");
-  const vendorsData = getData("vendors");
   const purchaseRequestsData = getData("purchase-requests");
 
 
@@ -22,8 +21,8 @@ const NewPurchaseOrder = async ({ initialData = {}, isUpdate = false }) => {
   // instead of this we use 
   // PARALLEL FETCHING is more faster and did't block the code
   // 2- 
-  const [categories, units, brands, warehouses, suppliers, vendors, purchaseRequests] = await Promise.all([
-    categoriesData, unitsData, brandsData, warehousesData, suppliersData, vendorsData, purchaseRequestsData
+  const [categories, units, brands, warehouses, suppliers, purchaseRequests] = await Promise.all([
+    categoriesData, unitsData, brandsData, warehousesData, suppliersData, purchaseRequestsData
   ])
 
 
@@ -43,7 +42,7 @@ const NewPurchaseOrder = async ({ initialData = {}, isUpdate = false }) => {
         <h2 className="py-4 text-xl font-semibold">Approval Request</h2>
 
         {/* Now remove this form code after creating CreatingForm.jsx component */}
-        <CreatePurchaseOrdersForm categories={categories} units={units} brands={brands} warehouses={warehouses} suppliers={suppliers} vendors={vendors} purchaseRequests={purchaseRequests} initialData={initialData} isUpdate={isUpdate} />
+        <CreatePurchaseOrdersForm categories={categories} units={units} brands={brands} warehouses={warehouses} suppliers={suppliers}  purchaseRequests={purchaseRequests} initialData={initialData} isUpdate={isUpdate} />
       </div>
 
     </div>

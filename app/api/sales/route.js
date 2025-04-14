@@ -18,22 +18,22 @@ export async function POST(request) {
             }
         });
 
-        const category = db.category.findUnique({
+        const category = await db.category.findUnique({
             where: {
                 id: saleData.categoryId
             }
         });
-        const unit = db.unit.findUnique({
+        const unit = await db.unit.findUnique({
             where: {
                 id: saleData.unitId
             }
         });
-        const brand = db.brand.findUnique({
+        const brand = await db.brand.findUnique({
             where: {
                 id: saleData.brandId
             }
         });
-        const supplier = db.supplier.findUnique({
+        const supplier = await db.supplier.findUnique({
             where: {
                 id: saleData.supplierId
             }
@@ -79,6 +79,41 @@ export async function POST(request) {
         const currentWarehouseStock = warehouse.stockQty;
         const newStockQty = parseInt(currentWarehouseStock) - parseInt(saleData.qty);
 
+        //
+
+        // FOR UPDATE STOCK QUANTITY IN PRODUCTS
+        // - the stock in items table
+        const productToUpdate = await db.product.findUnique({
+            where: {
+                id: saleData.productId,
+            },
+        })
+
+        // Current Item Quantity 
+        const currentProductQty = productToUpdate.quantity;
+        console.log(TAG, "currentProductQty()", currentProductQty);
+
+        // we get this result 245428 now we convert this into int
+        const newQtyProduct = parseInt(currentProductQty) - parseInt(saleData.qty);
+        console.log(TAG, "newQtyProduct()", newQtyProduct);
+
+
+        // Affect the Product
+        // Modify the Product to the new Qty 
+        const updatedProduct = await db.product.update({
+            where: {
+                id: saleData.productId,
+            },
+            data: {
+                // this is tricky
+                quantity: newQtyProduct,
+            }
+        })
+        console.log(TAG, "updatedProduct()", updatedProduct);
+
+
+        //
+
 
         // Update the Stock on the Warehouse 
         // const updatedWarehouseStock = await db.warehouse.update({
@@ -107,6 +142,7 @@ export async function POST(request) {
                 description: saleData.description,
                 location: saleData.location,
                 itemId: saleData.itemId,
+                productId: saleData.productId,
                 // buyingPrice: parseFloat(saleData.buyingPrice),
                 // sellingPrice: parseFloat(saleData.sellingPrice),
                 // reOrderPoint: parseInt(saleData.reOrderPoint),
@@ -191,6 +227,7 @@ export async function GET(request) {
                 warehouse: true, // Returns all warehouses fields
                 supplier: true,
                 item: true,
+                product: true,
             },
         });
         console.log(sales);

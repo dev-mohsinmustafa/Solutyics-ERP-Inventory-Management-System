@@ -16,7 +16,6 @@ export async function GET(request, { params: { id } }) {
                 brand: true,
                 warehouse: true, // Returns all warehouses fields
                 supplier: true,
-                vendor: true,
                 // purchaseRequest: true,
               },
         });
@@ -54,7 +53,6 @@ export async function PUT(request, { params: { id } }) {
                 brandId: purchaseOrderData.brandId,
                 supplierId: purchaseOrderData.supplierId,
                 warehouseId: purchaseOrderData.warehouseId,
-                vendorId: purchaseOrderData.vendorId,
                 // purchaseRequestId: purchaseOrderData.purchaseRequestId,
                 description: purchaseOrderData.description,
                 location: purchaseOrderData.location,

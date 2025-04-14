@@ -39,11 +39,7 @@ export async function POST(request) {
                 id: purchaseOrdersData.supplierId
             }
         });
-        // const vendor = await db.vendor.findUnique({
-        //     where: {
-        //         id: purchaseOrdersData.vendorId
-        //     }
-        // });
+     
         // const item = await db.item.findUnique({
         //     where: {
         //         id: purchaseOrdersData.itemId
@@ -67,13 +63,7 @@ export async function POST(request) {
         //     }
         // })
 
-        const vendor = await db.vendor.findUnique({
-            where: { id: purchaseOrdersData.vendorId }
-        });
-        
-        if (!vendor) {
-            return NextResponse.json({ message: "Invalid vendorId" }, { status: 400 });
-        }
+      
         
         const purchaseRequest = await db.purchaseRequest.findUnique({
             where: { id: purchaseOrdersData.purchaseRequestId }
@@ -94,15 +84,14 @@ export async function POST(request) {
                 brandId: purchaseOrdersData.brandId,
                 supplierId: purchaseOrdersData.supplierId,
                 warehouseId: purchaseOrdersData.warehouseId,
-                vendorId: purchaseOrdersData.vendorId,
                 purchaseRequestId: purchaseOrdersData.purchaseRequestId,
                 description: purchaseOrdersData.description,
                 orderStatus: purchaseOrdersData.orderStatus, 
-                grnNumber: purchaseOrdersData.grnNumber,
-                receivedBy: purchaseOrdersData.receivedBy,
-                receivedDate: new Date(purchaseOrdersData.receivedDate),
-                goodsStatus: purchaseOrdersData.goodsStatus, 
-                grnRemarks: purchaseOrdersData.grnRemarks, 
+                // grnNumber: purchaseOrdersData.grnNumber,
+                // receivedBy: purchaseOrdersData.receivedBy,
+                // receivedDate: new Date(purchaseOrdersData.receivedDate),
+                // goodsStatus: purchaseOrdersData.goodsStatus, 
+                // grnRemarks: purchaseOrdersData.grnRemarks, 
             }
         });
         return NextResponse.json(purchaseOrder);
@@ -127,7 +116,6 @@ export async function GET(request) {
                 brand: true,
                 warehouse: true, // Returns all warehouses fields
                 supplier: true,
-                vendor: true,
                 purchaseRequest: true,
                 // items: true
             },

@@ -8,11 +8,11 @@ import { makePostRequest, makePutRequest } from "@/lib/apiRequest";
 import { Plus } from "lucide-react";
 import { redirect } from "next/dist/server/api-utils";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
-const NewCategory = ({ initialData = {}, isUpdate = false }) => {
+const NewCategory = memo(({ initialData = {}, isUpdate = false }) => {
   const [loading, setLoading] = useState(false);
   const { register, handleSubmit, reset, formState: { errors } } = useForm({
     defaultValues: initialData,
@@ -154,5 +154,7 @@ const NewCategory = ({ initialData = {}, isUpdate = false }) => {
     </div>
   )
 }
+);
+NewCategory.displayName = 'NewCategory';
 
 export default NewCategory;

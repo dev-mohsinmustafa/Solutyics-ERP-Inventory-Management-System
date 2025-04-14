@@ -4,7 +4,7 @@ import { getData } from "@/lib/getData";
 
 const PurchaseOrders = async () => {
   const purchasesOrder = await getData("purchase-orders");
-  const columns = ["orderBy", "orderDate", "purchaseReceive", "purchaseOrder", "supplier.title", "vendor.title", "orderStatus" ];
+  const columns = ["orderBy", "orderDate", "purchaseReceive", "purchaseOrder",  "supplier.title", "orderStatus" ];
   // "category.title", "warehouse.title", "quantity", "description"
 
   return (

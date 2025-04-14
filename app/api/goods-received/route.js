@@ -39,11 +39,7 @@ export async function POST(request) {
         //         id: goodsReceivedData.supplierId
         //     }
         // });
-        // const vendor = await db.vendor.findUnique({
-        //     where: {
-        //         id: purchaseOrdersData.vendorId
-        //     }
-        // });
+        
         // const item = await db.item.findUnique({
         //     where: {
         //         id: purchaseOrdersData.itemId
@@ -67,13 +63,7 @@ export async function POST(request) {
         //     }
         // })
 
-        // const vendor = await db.vendor.findUnique({
-        //     where: { id: goodsReceivedData.vendorId }
-        // });
-        
-        // if (!vendor) {
-        //     return NextResponse.json({ message: "Invalid vendorId" }, { status: 400 });
-        // }
+      
         
         // const purchaseRequest = await db.purchaseRequest.findUnique({
         //     where: { id: goodsReceivedData.purchaseRequestId }
@@ -101,7 +91,6 @@ export async function POST(request) {
                 // brandId: goodsReceivedData.brandId,
                 // supplierId: goodsReceivedData.supplierId,
                 // warehouseId: goodsReceivedData.warehouseId,
-                // vendorId: goodsReceivedData.vendorId,
                 // description: goodsReceivedData.description,
                 // orderStatus: goodsReceivedData.orderStatus, 
                 purchaseOrderId: goodsReceivedData.purchaseOrderId,
@@ -134,7 +123,6 @@ export async function GET(request) {
                 // brand: true,
                 // warehouse: true, // Returns all warehouses fields
                 // supplier: true,
-                // vendor: true,
                 // purchaseRequest: true,
                 purchaseOrder: true,
                 // items: true

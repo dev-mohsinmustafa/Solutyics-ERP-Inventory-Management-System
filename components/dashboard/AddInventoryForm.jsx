@@ -1,14 +1,17 @@
 "use client"
+import { memo } from 'react';
 
 import SelectInput from "@/components/formInputs/SelectInput";
 import SubmitButton from "@/components/formInputs/SubmitButton";
 import TextareaInput from "@/components/formInputs/TextareaInput";
 import TextInput from "@/components/formInputs/TextInput";
 import { makePostRequest } from "@/lib/apiRequest";
+import { useCallback } from "react";
+
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
-const AddInventoryForm = ({ items, warehouses, suppliers }) => {
+const AddInventoryForm = memo(({ items, warehouses, suppliers }) => {
   // Now remove this because we fetch from db now
 
   // const branches = [
@@ -96,5 +99,8 @@ const AddInventoryForm = ({ items, warehouses, suppliers }) => {
 
   )
 }
+);
+
+AddInventoryForm.displayName = 'AddInventoryForm';
 
 export default AddInventoryForm;

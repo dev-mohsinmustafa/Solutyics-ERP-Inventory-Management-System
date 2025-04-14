@@ -22,13 +22,15 @@ const Sales = () => {
   const [filteredSales, setFilteredSales] = useState([]);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  
+  async function fetchData() {
+    const data = await getData("sales");
+    console.log("Sales Data", data);
+    setSales(data);
+    setFilteredSales(data); // Initialize filtered sales with all data
+  }
   useEffect(() => {
-    async function fetchData() {
-      const data = await getData("sales");
-      console.log("Sales Data", data);
-      setSales(data);
-      setFilteredSales(data); // Initialize filtered sales with all data
-    }
+   
     fetchData();
   }, []);
 
@@ -163,7 +165,9 @@ const Sales = () => {
       </div>
 
       <div className="my-4 p-8 ">
-        <DataTableSales data={filteredSales} columns={columns} resourceTitle={"sales"} />
+        <DataTableSales data={filteredSales} columns={columns} resourceTitle={"sales"} 
+        onRefresh={fetchData}
+        />
       </div>
 
       {/* <DataTable data={sales} columns={columns} resourceTitle={"sales"} /> */}

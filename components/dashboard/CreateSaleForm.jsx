@@ -15,7 +15,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
-const CreateSaleForm = ({ categories, units, brands, suppliers, warehouses, items, initialData = {}, isUpdate = false }) => {
+const CreateSaleForm = ({ categories, units, brands, suppliers, warehouses, items, products, initialData = {}, isUpdate = false }) => {
     console.log("Initial Data", initialData);
 
     // const [imageUrl, setImageUrl] = useState(initialData.imageUrl);
@@ -73,6 +73,8 @@ const CreateSaleForm = ({ categories, units, brands, suppliers, warehouses, item
                 {/* when we add 200 quantity then also add of which item so we have 2 selects  */}
                 <SelectInput label="Select the Item" name="itemId" register={register} errors={errors}
                     className="w-full" options={items} />
+                <SelectInput label="Select the Product" name="productId" register={register} errors={errors}
+                    className="w-full" options={products} />
                 <SelectInput label="Select the Item Category" name="categoryId" register={register} errors={errors}
                     className="w-full" options={categories} />
 

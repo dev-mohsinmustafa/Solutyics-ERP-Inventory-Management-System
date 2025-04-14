@@ -12,7 +12,7 @@ import autoTable from "jspdf-autotable";
 const GoodsReceived =  () => {
   // const goodsReceived = await getData("goods-received");
   const columns = ["grnNumber", "purchaseOrderId", "receivedBy", "receivedDate","grnRemarks",   ];
-  // "category.title", "warehouse.title", "quantity", "description" , "orderBy", "orderDate", "purchaseReceive", "purchaseOrder", "vendor.title", "orderStatus", "goodsStatus"
+  // "category.title", "warehouse.title", "quantity", "description" , "orderBy", "orderDate", "purchaseReceive", "purchaseOrder", "orderStatus", "goodsStatus"
 
   const [goodReceived, setGoodReceived] = useState([]);
   const [filteredGoodReceived, setFilteredGoodReceived] = useState([]);

@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
-const CreateGoodsReceivedForm = ({ categories, units, brands, suppliers, warehouses, vendors, purchaseRequests, purchaseOrders,purchaseOrdersId, initialData = {}, isUpdate = false }) => {
+const CreateGoodsReceivedForm = ({ categories, units, brands, suppliers, warehouses, purchaseRequests, purchaseOrders,purchaseOrdersId, initialData = {}, isUpdate = false }) => {
     // console.log("Initial Data", initialData);
     // console.log("Fetched Purchase Requests Data Mohsin:", purchaseRequests[0].purchaseOrder);
 
@@ -22,22 +22,22 @@ const CreateGoodsReceivedForm = ({ categories, units, brands, suppliers, warehou
         { id: "open", title: "Open" },
         { id: "received", title: "Received" },
     ]
-    // const vendors = [
+    // const suppliers = [
     //     { id: "1", title: "Ahmad" },
     //     { id: "2", title: "Ali" },
     //     { id: "3", title: "Khalid" },
     // ]
-    // const vendors = [
+    // const suppliers = [
     //     {
-    //         "title": "Vendor Ali",
+    //         "title": "Supplier Ali",
     //         "id": "123"
     //     },
     //     {
-    //         "title": "Vendor John",
+    //         "title": "Supplier John",
     //         "id": "345"
     //     },
     //     {
-    //         "title": "Vendor Carlos",
+    //         "title": "Supplier Carlos",
     //         "id": "567"
     //     },
     // ]
@@ -96,8 +96,8 @@ const CreateGoodsReceivedForm = ({ categories, units, brands, suppliers, warehou
                             </div>
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-gray-700">Vendor</label>
-                            <div className="mt-1 p-2 bg-gray-50 rounded-md">{purchaseOrdersId.vendor.title}</div>
+                            <label className="block text-sm font-medium text-gray-700">Supplier</label>
+                            <div className="mt-1 p-2 bg-gray-50 rounded-md">{purchaseOrdersId.supplier.title}</div>
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-gray-700">Status</label>
@@ -142,14 +142,14 @@ const CreateGoodsReceivedForm = ({ categories, units, brands, suppliers, warehou
                 <TextareaInput label="Goods Received Remarks" name="grnRemarks" register={register} errors={errors} />
 
 
-                {/* <SelectInput label="Select the Vendor" name="vendorId" register={register} errors={errors}
-                    className="w-full" options={vendors} /> */}
+                {/* <SelectInput label="Select the Supplier" name="supplierId" register={register} errors={errors}
+                    className="w-full" options={suppliers} /> */}
                 {/* Purchase Order Received By */}
                 {/* <TextInput label="Purchase Order#" name="purchaseOrder" register={register} errors={errors}
                     className="w-full"
                 /> */}
 
-                {/* Show fields only when a vendor is selected */}
+                {/* Show fields only when a supplier is selected */}
 
                 {/* <SelectInput label="Select the Purchase Request Order" name="purchaseRequestId" register={register} errors={errors}
                     className="w-full" options={purchaseRequests.map((req) => ({

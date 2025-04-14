@@ -30,8 +30,8 @@
 //                   </div>
 //                 </div>
 //                 <div>
-//                   <label className="block text-sm font-medium text-gray-700">Vendor</label>
-//                   <div className="mt-1 p-2 bg-gray-50 rounded-md">{purchaseOrder.vendor.title}</div>
+//                   <label className="block text-sm font-medium text-gray-700">Supplier</label>
+//                   <div className="mt-1 p-2 bg-gray-50 rounded-md">{purchaseOrder.supplier.title}</div>
 //                 </div>
 //                 <div>
 //                   <label className="block text-sm font-medium text-gray-700">Status</label>
@@ -123,7 +123,6 @@ const CreateGRNPage = async ({ params, initialData = {}, isUpdate = false }) => 
   const brandsData = getData("brands");
   const warehousesData = getData("warehouse");
   const suppliersData = getData("suppliers");
-  const vendorsData = getData("vendors");
   const purchaseRequestsData = getData("purchase-requests");
   const purchaseOrdersData = getData("purchase-orders");
 
@@ -133,8 +132,8 @@ const CreateGRNPage = async ({ params, initialData = {}, isUpdate = false }) => 
   // instead of this we use 
   // PARALLEL FETCHING is more faster and did't block the code
   // 2- 
-  const [categories, units, brands, warehouses, suppliers, vendors, purchaseRequests, purchaseOrders, purchaseOrdersId] = await Promise.all([
-    categoriesData, unitsData, brandsData, warehousesData, suppliersData, vendorsData, purchaseRequestsData, purchaseOrdersData, purchaseOrderDataId
+  const [categories, units, brands, warehouses, suppliers, purchaseRequests, purchaseOrders, purchaseOrdersId] = await Promise.all([
+    categoriesData, unitsData, brandsData, warehousesData, suppliersData, purchaseRequestsData, purchaseOrdersData, purchaseOrderDataId
   ])
 
 
@@ -155,7 +154,7 @@ const CreateGRNPage = async ({ params, initialData = {}, isUpdate = false }) => 
 
 
         {/* Now remove this form code after creating CreatingForm.jsx component */}
-        <CreateGoodsReceivedForm categories={categories} units={units} brands={brands} warehouses={warehouses} suppliers={suppliers} vendors={vendors} purchaseRequests={purchaseRequests} purchaseOrders={purchaseOrders} purchaseOrdersId={purchaseOrdersId} initialData={initialData} isUpdate={isUpdate} />
+        <CreateGoodsReceivedForm categories={categories} units={units} brands={brands} warehouses={warehouses} suppliers={suppliers}  purchaseRequests={purchaseRequests} purchaseOrders={purchaseOrders} purchaseOrdersId={purchaseOrdersId} initialData={initialData} isUpdate={isUpdate} />
       </div>
 
     </div>

@@ -6,7 +6,8 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 
-const DeleteBtn = ({ id, endpoint, title }) => {
+// onSuccess
+const DeleteBtn = ({ id, endpoint, title, onSuccess }) => {
 
     const [loading, setLoading] = useState(false);
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
@@ -36,13 +37,15 @@ const DeleteBtn = ({ id, endpoint, title }) => {
                     router.refresh();
                     // const deletedData = await response.json();
                     setLoading(false);
+                    // Call onSuccess callback if provided
+                    if (onSuccess) onSuccess();
                     Swal.fire({
                         title: "Deleted!",
                         // text: "Your file has been deleted.",
                         text: "Resource Deleted Successfully.",
                         icon: "success"
                     });
-                    setTimeout(()=>{
+                    setTimeout(() => {
                         toast.success("Deleted Successfully")
                     }, 2000)
                 }

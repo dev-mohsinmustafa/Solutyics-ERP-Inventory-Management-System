@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
-const CreatePurchaseOrdersForm = ({ categories, units, brands, suppliers, warehouses, vendors, purchaseRequests, initialData = {}, isUpdate = false }) => {
+const CreatePurchaseOrdersForm = ({ categories, units, brands, suppliers, warehouses, purchaseRequests, initialData = {}, isUpdate = false }) => {
     // console.log("Initial Data", initialData);
     // console.log("Fetched Purchase Requests Data Mohsin:", purchaseRequests[0].purchaseOrder);
 
@@ -22,22 +22,22 @@ const CreatePurchaseOrdersForm = ({ categories, units, brands, suppliers, wareho
         { id: "open", title: "Open" },
         { id: "received", title: "Received" },
     ]
-    // const vendors = [
+    // const suppliers = [
     //     { id: "1", title: "Ahmad" },
     //     { id: "2", title: "Ali" },
     //     { id: "3", title: "Khalid" },
     // ]
-    // const vendors = [
+    // const suppliers = [
     //     {
-    //         "title": "Vendor Ali",
+    //         "title": "Supplier Ali",
     //         "id": "123"
     //     },
     //     {
-    //         "title": "Vendor John",
+    //         "title": "Supplier John",
     //         "id": "345"
     //     },
     //     {
-    //         "title": "Vendor Carlos",
+    //         "title": "Supplier Carlos",
     //         "id": "567"
     //     },
     // ]
@@ -58,15 +58,14 @@ const CreatePurchaseOrdersForm = ({ categories, units, brands, suppliers, wareho
 
 
 
-    // Watch vendor selection
-    const selectedVendor = watch("vendorId");
-    const selectedPurchaseRequest = watch("purchaseRequestId");
-    // ✅ Filter purchase requests based on selected vendor
-    // const filteredPurchaseRequests = selectedVendor
-    //     ? purchaseRequests.filter(req => req.vendorId === selectedVendor)
+    // Watch supplier selection
+    const selectedSupplier = watch("supplierId");
+    // ✅ Filter purchase requests based on selected supplier
+    // const filteredPurchaseRequests = selectedSupplier
+    //     ? purchaseRequests.filter(req => req.supplierId === selectedSupplier)
     //     : [];
-    // const filteredPurchaseRequests = purchaseRequests.filter(req => req.vendorId == selectedVendor);
-    const orderStatus = watch("orderStatus"); // Watching order status
+    // const filteredPurchaseRequests = purchaseRequests.filter(req => req.supplierId == selectedSupplier);
+    // const orderStatus = watch("orderStatus"); // Watching order status
 
 
     const router = useRouter();
@@ -94,26 +93,34 @@ const CreatePurchaseOrdersForm = ({ categories, units, brands, suppliers, wareho
         <form onSubmit={handleSubmit(onSubmit)}>
             <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
 
-
-                <SelectInput label="Select the Vendor" name="vendorId" register={register} errors={errors}
-                    className="w-full" options={vendors} />
+                {/* <SelectInput label="Select the Item Supplier" name="supplierId" register={register} errors={errors}
+                    className="w-full" options={suppliers} /> */}
+                <SelectInput label="Select the Supplier" name="supplierId" register={register} errors={errors}
+                    className="w-full"
+                    // options={supplier}
+                    options={[
+                        { id: "", title: "Select the Supplier" },
+                        ...suppliers
+                    ]}
+                />
                 {/* Purchase Order Received By */}
                 {/* <TextInput label="Purchase Order#" name="purchaseOrder" register={register} errors={errors}
                     className="w-full"
                 /> */}
 
-                {/* Show fields only when a vendor is selected */}
-                {selectedVendor && (
 
-                    <SelectInput label="Select the Purchase Request Order" name="purchaseRequestId" register={register} errors={errors}
-                        className="w-full" options={purchaseRequests.map((req) => ({
-                            id: req.id,
-                            title: req.purchaseOrder
-                        }))} />
-                )}
-                {/* Show fields only if a purchase request is selected */}
-                {selectedPurchaseRequest && (
+
+                {/* Show fields only when a supplier is selected */}
+                {selectedSupplier && (
                     <>
+                        <SelectInput label="Select the Purchase Request Order" name="purchaseRequestId" register={register} errors={errors}
+                            className="w-full" options={purchaseRequests.map((req) => ({
+                                id: req.id,
+                                title: req.purchaseOrder
+                            }))} />
+
+                        {/* Show fields only if a purchase request is selected */}
+
                         <TextInput label="Purchase Receive#" name="purchaseReceive" register={register} errors={errors}
                             className="w-full"
                         />
@@ -159,8 +166,7 @@ const CreatePurchaseOrdersForm = ({ categories, units, brands, suppliers, wareho
                         <SelectInput label="Select the Item Brand" name="brandId" register={register} errors={errors}
                             className="w-full" options={brands} />
 
-                        <SelectInput label="Select the Item Supplier" name="supplierId" register={register} errors={errors}
-                            className="w-full" options={suppliers} />
+
 
 
                         <SelectInput label="Select the Item Warehouse" name="warehouseId" register={register} errors={errors}
@@ -173,15 +179,15 @@ const CreatePurchaseOrdersForm = ({ categories, units, brands, suppliers, wareho
                         <TextareaInput label="Goods Received Remarks" name="description" register={register} errors={errors} />
                         {/* <TextareaInput label="Item Notes" name="notes" register={register} errors={errors} /> */}
 
+
                     </>
                 )}
-
 
             </div>
 
 
             {/* GRN Form Section - Display when orderStatus is "Open" */}
-            {orderStatus === "open" && (
+            {/* {orderStatus === "open" && (
                 <div className="mt-6 border-t pt-4">
                     <h3 className="text-lg font-semibold">Goods Received Note (GRN) Details</h3>
 
@@ -191,7 +197,7 @@ const CreatePurchaseOrdersForm = ({ categories, units, brands, suppliers, wareho
                     <TextareaInput label="GRN Remarks" name="grnRemarks" register={register} errors={errors} />
 
                 </div>
-            )}
+            )} */}
 
             {/* Submit Button */}
             <SubmitButton title={isUpdate ? "Updated Existing Purchase Order" : "New Purchase Order"} isLoading={loading} />
