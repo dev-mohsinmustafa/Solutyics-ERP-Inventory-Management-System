@@ -1,22 +1,8 @@
 import db from "@/lib/db";
 import { NextResponse } from "next/server";
 
-import { getServerSession } from "next-auth";
-
 export async function PUT(request) {
     try {
-        //
-      // Get the session
-      const session = await getServerSession();
-
-      // Check if user is authenticated and is an admin
-      if (!session?.user?.role !== 'admin') {
-          return NextResponse.json({ 
-              error: "Unauthorized. Only admins can approve requests." 
-          }, { status: 403 });
-      }
-
-        //
         const { id, status, remarks, approvedById } = await request.json();
 
         if (!id || !status || !approvedById) {
@@ -25,17 +11,14 @@ export async function PUT(request) {
             }, { status: 400 });
         }
 
-        // Check if user exists and is admin
+        // Check if user exists
         const user = await db.user.findUnique({
-            where: { 
-                id: approvedById,
-                role: 'admin'
-             }
+            where: { id: approvedById }
         });
 
         if (!user) {
             return NextResponse.json({ 
-                error: "Invalid approver ID or unauthorized access" 
+                error: "Invalid approver ID" 
             }, { status: 400 });
         }
 
@@ -76,6 +59,47 @@ export async function PUT(request) {
         console.error("Error in approval process:", error);
         return NextResponse.json({ 
             error: error.message || "Failed to process approval"
+        }, { status: 500 });
+    }
+}
+
+
+
+
+
+
+// Add GET endpoint to fetch approval requests
+export async function GET() {
+    try {
+        const approvalRequests = await db.purchaseRequestApproval.findMany({
+            include: {
+                purchaseRequest: {
+                    include: {
+                        supplier: true,
+                        warehouse: true,
+                        category: true,
+                        unit: true,
+                        brand: true
+                    }
+                },
+                approvedBy: {
+                    select: {
+                        name: true,
+                        email: true,
+                        role: true
+                    }
+                }
+            },
+            orderBy: {
+                createdAt: 'desc'
+            }
+        });
+
+        return NextResponse.json(approvalRequests);
+    } catch (error) {
+        console.error("Error fetching approval requests:", error);
+        return NextResponse.json({ 
+            error: "Failed to fetch approval requests" 
         }, { status: 500 });
     }
 }

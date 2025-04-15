@@ -1,9 +1,14 @@
+"use client"
 import { Eye, Pencil, } from "lucide-react"
 import Link from "next/link"
 import DeleteBtn from "./DeleteBtn"
-import { memo } from 'react';
+import { memo, useEffect } from 'react';
 
 const DataTable = memo(({ data = [], columns = [], resourceTitle }) => {
+    // useEffect(() => {
+    //     // This will help track when the data prop changes
+    //     console.log('DataTable received new data:', data);
+    // }, [data]);
     // if a have an array of objects:
     // [
     //     {
